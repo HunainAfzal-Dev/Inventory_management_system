@@ -34,6 +34,26 @@ app.get('/', async (req, res) => {
     }
 });
 
+app.get('/users', async (req, res) => {
+    try {
+        // Supabase database se users table ka data check karne ki koshish karte hain
+        const { data, error } = await supabase.from('users').select('*').limit(1);
+        
+        if (error) throw error;
+        
+        res.json({ 
+            status: "Success", 
+            message: "Users data retrieved successfully! 🎉", 
+        });
+    } catch (err) {
+        res.status(500).json({ 
+            status: "Error", 
+            message: "Database se connect nahi ho saka.", 
+            error: err.message 
+        });
+    }
+});
+
 // Server ko port par listen karwaya
 app.listen(PORT, () => {
     console.log(`🚀 Server perfectly running on port ${PORT}`);
