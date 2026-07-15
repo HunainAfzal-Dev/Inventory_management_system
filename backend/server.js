@@ -35,7 +35,17 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.post('/', async (req, res) => {
+app.post('/api/auth/signup', async (req, res) => {
+
+    // frontend se aane wale data ko destructure kiya
+    const { name, email, password, shop_name } = req.body;
+     if(!name || !email || !password || !shop_name) {
+        return res.status(400).json({ 
+            status: "Error", 
+            message: "Named, email, and password are requried." 
+        });
+    }
+
 })
 
 // Server ko port par listen karwaya
