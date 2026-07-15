@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+const bcrypt = require('bcrypt');
 
+require('dotenv').config();
 // Jo supabase connection file humne upar banayi thi, usko yahan import kiya
 const supabase = require('./supabaseClient');
 
@@ -34,25 +35,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/users', async (req, res) => {
-    try {
-        // Supabase database se users table ka data check karne ki koshish karte hain
-        const { data, error } = await supabase.from('users').select('*').limit(1);
-        
-        if (error) throw error;
-        
-        res.json({ 
-            status: "Success", 
-            message: "Users data retrieved successfully! 🎉", 
-        });
-    } catch (err) {
-        res.status(500).json({ 
-            status: "Error", 
-            message: "Database se connect nahi ho saka.", 
-            error: err.message 
-        });
-    }
-});
+app.post('/')
 
 // Server ko port par listen karwaya
 app.listen(PORT, () => {
