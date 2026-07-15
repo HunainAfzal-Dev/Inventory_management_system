@@ -35,12 +35,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.post('/api/auth/signup', async (req, res) => {
-
-    // frontend se aane wale data ko destructure kiya
-    const { name, email, password, shop_name } = req.body;
-
-
+app.post('/', async (req, res) => {
 })
 
 // Server ko port par listen karwaya
