@@ -98,7 +98,7 @@ app.post('/api/auth/signup', async (req, res) => {
         // respond with the created user data (excluding the password)
         res.status(201).json({
             status: "Success",
-            message: "User successfully register ho gaya hai! 🎉",
+            message: "User registered successfully!",
             user: newUser[0]
         });
 
@@ -112,6 +112,47 @@ app.post('/api/auth/signup', async (req, res) => {
         });
     }
 });
+
+
+app.post('/api/auth/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                status: "Error",
+                message: "Email and password are required."
+            });
+        }
+        const { data: user, error: fetchError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('email', email)
+            .single(); // fetch the user by email
+
+        if (fetchError || !user) {
+            return res.status(400).json({
+                status: "Error",
+                message: "Invalid email or password."
+            });
+        }
+
+        res.status(200).json({
+            status: "Success",
+            message: "Login successful!",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                shop_name: user.shop_name,
+            }
+        })
+    } catch (err) {
+        console.error("Login Error:", err.message);
+        res.status(500).json({ error: "Server error: Login nahi ho saka." });
+    }
+})
+
 
 // start listening for incoming HTTP requests on the selected port
 app.listen(PORT, () => {
