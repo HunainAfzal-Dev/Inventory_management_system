@@ -3,7 +3,7 @@ const express = require('express');
 // import CORS middleware so the frontend can call this backend safely
 const cors = require('cors');
 // import bcrypt library for hashing passwords securely
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // load environment variables from .env file into process.env
 require('dotenv').config();
