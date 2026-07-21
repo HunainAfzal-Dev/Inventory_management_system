@@ -160,6 +160,17 @@ app.post('/api/auth/login', async (req, res) => {
 })
 
 
+app.post('/api/products', async (req, res) => {
+    try {
+        const { user_id, name, sku, category, buy_price, sale_price, stock_quantity, low_stock_threshold, created_at } = req.body;
+        if (user_id && sku && buy_price && sale_price && stock_quantity) {
+            return res.status(400).json({ error: 'Missing required fields.' });
+        }
+    } catch (err) {
+        console.error('Error while adding product:', err);
+        res.status(500).json({ error: 'Server error while adding product.' });
+    }
+})
 // start listening for incoming HTTP requests on the selected port
 app.listen(PORT, () => {
     console.log(`🚀 Server perfectly running on port ${PORT}`);
