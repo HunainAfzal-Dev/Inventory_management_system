@@ -166,11 +166,64 @@ app.post('/api/products', async (req, res) => {
         if (user_id && sku && buy_price && sale_price && stock_quantity) {
             return res.status(400).json({ error: 'Missing required fields.' });
         }
+
+        const { data, error } = await supabase
+            .from('products')
+            .insert([
+                {
+                    user_id,
+                    name,
+                    sku,
+                    category,
+                    buy_price,
+                    sale_price,
+                    stock_quantity,
+                    low_stock_threshold,
+                    created_at
+                }
+            ])
+            .select();
+        if (error) {
+            console.error('Supabase Insert Error:', error.message);
+            return res.status(500).json({ error: 'Database error while adding product.' });
+        }
+
+        res.status(201).json({ status: "Success", message: 'Product added successfully.', product: data[0] });
+
     } catch (err) {
         console.error('Error while adding product:', err);
         res.status(500).json({ error: 'Server error while adding product.' });
     }
 })
+
+
+// --- GET ALL PRODUCTS FOR A USER API ---
+app.get('/api/products/:user_id', async (req, res) => {
+    try {
+        const { user_id } = req.params;
+
+        const { data: products, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('user_id', user_id)
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            return res.status(400).json({ error: error.message });
+        }
+
+        res.status(200).json({
+            status: "Success",
+            count: products.length,
+            products
+        });
+
+    } catch (err) {
+        console.error("Fetch Products Error:", err.message);
+        res.status(500).json({ error: "Server error: Products fetch nahi ho sake." });
+    }
+});
+
 // start listening for incoming HTTP requests on the selected port
 app.listen(PORT, () => {
     console.log(`🚀 Server perfectly running on port ${PORT}`);
