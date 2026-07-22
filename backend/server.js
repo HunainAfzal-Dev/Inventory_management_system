@@ -163,8 +163,17 @@ app.post('/api/auth/login', async (req, res) => {
 app.post('/api/products', async (req, res) => {
     try {
         const { user_id, name, sku, category, buy_price, sale_price, stock_quantity, low_stock_threshold, created_at } = req.body;
-        if (user_id && sku && buy_price && sale_price && stock_quantity) {
-            return res.status(400).json({ error: 'Missing required fields.' });
+
+        // check for missing required fields and collect their names
+        const requiredFields = { user_id, name, sku, buy_price, sale_price, stock_quantity };
+        const missingFields = Object.entries(requiredFields)
+            .filter(([key, value]) => value === undefined || value === null || value === '')
+            .map(([key]) => key);
+
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                error: `Missing required fields: ${missingFields.join(', ')}` 
+            });
         }
 
         const { data, error } = await supabase
