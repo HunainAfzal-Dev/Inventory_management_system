@@ -1,0 +1,52 @@
+backend
+├── .env.example              # Environment template
+├── .gitignore
+├── package.json
+├── server.js                 # Entry point - starts the server
+├── app.js                    # Express app setup & middleware registration
+└── src
+    ├── config
+    │   └── supabase.js       # Supabase client configuration (moved from supabaseClient.js)
+    ├── middleware
+    │   ├── errorHandler.js   # Global error handler
+    │   ├── auth.middleware.js # JWT verification middleware
+    │   └── validate.middleware.js # Input validation middleware
+    ├── routes
+    │   ├── index.js          # Route aggregator (mounts all routes)
+    │   ├── auth.routes.js    # Auth endpoints
+    │   └── products.routes.js # Products endpoints
+    ├── controllers
+    │   ├── auth.controller.js    # Request handlers for auth
+    │   └── products.controller.js # Request handlers for products
+    ├── services
+    │   ├── auth.service.js    # Business logic for auth
+    │   └── products.service.js # Business logic for products
+    ├── validators
+    │   ├── auth.validator.js  # JoiZod schemas for auth
+    │   └── products.validator.js # JoiZod schemas for products
+    └── utils
+        ├── AppError.js        # Custom error class
+        └── catchAsync.js      # Async wrapper to avoid try-catch in controllers
+
+ Key Changes
+Express v4 (Stable): Downgrade from Express v5 to v4 (widely adopted, battle-tested)
+JWT Authentication:
+jsonwebtoken package for token generation/verification
+On signup/login → returns JWT token
+auth.middleware.js verifies token on protected routes
+Token payload: { id, email } signed with secret from .env
+Input Validation: Using joi library for schema validation
+Error Handling: Custom AppError class + global error handler middleware
+Separation of Concerns:
+Routes only define endpoints & middleware chain
+Controllers handle request/response, delegate to services
+Services contain business logic & database calls
+Validators define input schemas
+Bug Fix: Fix the login double-response bug (missing return on password mismatch)
+📦 Dependencies to Add
+jsonwebtoken - JWT creation/verification
+joi - Input validation
+Downgrade express from v5 to v4
+✅ Testing
+After restructuring, server should run with same API endpoints
+All existing functionality preserved
