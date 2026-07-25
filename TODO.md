@@ -1,13 +1,13 @@
 # Inventory Management System - Professionalization TODO
 
 ## ✅ Phase 1: Setup & Dependencies
-- [ ] Step 1: Downgrade Express v5 → v4, add jsonwebtoken + joi
-- [ ] Step 2: Create `.env.example` file
+- [x] Step 1: Downgrade Express v5 → v4, add jsonwebtoken + joi
+- [x] Step 2: Create `.env.example` file
 
 ## ✅ Phase 2: Utility & Config Layer
-- [ ] Step 3: Create `src/utils/AppError.js` - Custom error class
-- [ ] Step 4: Create `src/utils/catchAsync.js` - Async wrapper
-- [ ] Step 5: Create `src/config/supabase.js` - Supabase client config
+- [x] Step 3: Create `src/utils/AppError.js` - Custom error class
+- [x] Step 4: Create `src/utils/catchAsync.js` - Async wrapper
+- [x] Step 5: Create `src/config/supabase.js` - Supabase client config
 
 ## ✅ Phase 3: Middleware Layer
 - [ ] Step 6: Create `src/middleware/errorHandler.js` - Global error handler
