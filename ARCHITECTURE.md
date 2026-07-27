@@ -1,67 +1,68 @@
 # 🏗️ Inventory Management System - Architecture Document
 
-> **Purpose**: This document provides a complete visual map of the project structure, showing how every file connects, imports, and exports. Use it to onboard new developers, debug dependency issues, or understand the request flow.
+> **Purpose**: This document provides a complete visual map of the project structure, showing how every file connects, imports, and exports. **Every file name is a clickable link** — `Ctrl+Click` (Windows/Linux) or `Cmd+Click` (Mac) to navigate directly to the source file.
 
 ---
 
-## 📂 Complete File Tree
+## 📂 Complete File Tree (🔗 Click any file to open)
 
 ```
-backend/
+📁 backend/
 │
-├── 📄 server.js                          # 🚀 ENTRY POINT - Starts the HTTP server
-├── 📄 app.js                             # 🏗️ APP ASSEMBLY - Configures Express
-├── 📄 .env.example                       # 🔐 Environment variable template
-├── 📄 .gitignore                         # 🙈 Git exclusion rules
-├── 📄 package.json                       # 📦 Dependencies & scripts
+├── 🔗 [**server.js**](./backend/server.js)               — 🚀 ENTRY POINT - Starts the HTTP server
+├── 🔗 [**app.js**](./backend/app.js)                      — 🏗️ APP ASSEMBLY - Configures Express
+├── 🔗 [**.env.example**](./backend/.env.example)           — 🔐 Environment variable template
+├── 🔗 [**.gitignore**](./backend/.gitignore)               — 🙈 Git exclusion rules
+├── 🔗 [**package.json**](./backend/package.json)           — 📦 Dependencies & scripts
 │
 └── 📁 src/
     │
     ├── 📁 config/
-    │   └── supabase.js                   # 🗄️ Database client
+    │   └── 🔗 [**supabase.js**](./backend/src/config/supabase.js)           — 🗄️ Database client
     │
     ├── 📁 middleware/
-    │   ├── auth.middleware.js             # 🔐 JWT verification
-    │   ├── errorHandler.js               # ⚠️ Global error handler
-    │   └── validate.middleware.js         # ✅ Joi validation runner
+    │   ├── 🔗 [**auth.middleware.js**](./backend/src/middleware/auth.middleware.js)         — 🔐 JWT verification
+    │   ├── 🔗 [**errorHandler.js**](./backend/src/middleware/errorHandler.js)               — ⚠️ Global error handler
+    │   └── 🔗 [**validate.middleware.js**](./backend/src/middleware/validate.middleware.js)  — ✅ Joi validation runner
     │
     ├── 📁 validators/
-    │   ├── auth.validator.js             # 📝 Signup & login Joi schemas
-    │   └── products.validator.js         # 📝 Product CRUD Joi schemas
+    │   ├── 🔗 [**auth.validator.js**](./backend/src/validators/auth.validator.js)         — 📝 Signup & login Joi schemas
+    │   └── 🔗 [**products.validator.js**](./backend/src/validators/products.validator.js)  — 📝 Product CRUD Joi schemas
     │
     ├── 📁 routes/
-    │   ├── index.js                      # 🚦 Route aggregator (mounts all)
-    │   ├── auth.routes.js                # 🔐 /api/auth/* endpoints
-    │   └── products.routes.js            # 📦 /api/products/* endpoints
+    │   ├── 🔗 [**index.js**](./backend/src/routes/index.js)                    — 🚦 Route aggregator (mounts all)
+    │   ├── 🔗 [**auth.routes.js**](./backend/src/routes/auth.routes.js)        — 🔐 /api/auth/* endpoints
+    │   └── 🔗 [**products.routes.js**](./backend/src/routes/products.routes.js) — 📦 /api/products/* endpoints
     │
     ├── 📁 controllers/
-    │   ├── auth.controller.js            # 🔐 Auth request/response handlers
-    │   └── products.controller.js        # 📦 Products request/response handlers
+    │   ├── 🔗 [**auth.controller.js**](./backend/src/controllers/auth.controller.js)       — 🔐 Auth request/response handlers
+    │   └── 🔗 [**products.controller.js**](./backend/src/controllers/products.controller.js) — 📦 Products request/response handlers
     │
     ├── 📁 services/
-    │   ├── auth.service.js               # 🔑 Auth business logic + JWT
-    │   └── products.service.js           # 📦 Products business logic
+    │   ├── 🔗 [**auth.service.js**](./backend/src/services/auth.service.js)         — 🔑 Auth business logic + JWT
+    │   └── 🔗 [**products.service.js**](./backend/src/services/products.service.js)  — 📦 Products business logic
     │
     └── 📁 utils/
-        ├── AppError.js                   # ⚡ Custom error class
-        └── catchAsync.js                 # 🔄 Async error wrapper
+        ├── 🔗 [**AppError.js**](./backend/src/utils/AppError.js)         — ⚡ Custom error class
+        └── 🔗 [**catchAsync.js**](./backend/src/utils/catchAsync.js)     — 🔄 Async error wrapper
 ```
 
 ---
 
 ## 🔄 Import/Export Dependency Graph
 
-Below is every file with its **imports** (what it depends on) and **exports** (what it provides).
+Below is every file with its **imports** (what it depends on), **exports** (what it provides), and **who uses it**. Click any file name to navigate.
 
 ---
 
 ### 🚀 Entry Layer
 
-#### `server.js`
+#### 🔗 [`server.js`](./backend/server.js)
+
 ```javascript
 // ── IMPORTS ──────────────────────────────────────────────
 require('dotenv').config();       // 📦 npm: Loads .env into process.env
-const app = require('./app');     // 📁 Local: Import configured Express app
+const app = require('./app');     // 📁 Local: 🔗 [app.js](./backend/app.js)
 
 // ── EXPORTS ──────────────────────────────────────────────
 module.exports = server;          // Export server instance (for testing)
@@ -73,72 +74,71 @@ module.exports = server;          // Export server instance (for testing)
 
 ### 🏗️ App Assembly Layer
 
-#### `app.js`
+#### 🔗 [`app.js`](./backend/app.js)
+
 ```javascript
 // ── IMPORTS ──────────────────────────────────────────────
 const express = require('express');           // 📦 npm: Web framework
 const cors = require('cors');                 // 📦 npm: CORS headers
-const errorHandler = require('./src/middleware/errorHandler');  // 📁 Local
-const apiRoutes = require('./src/routes/index');               // 📁 Local
+const errorHandler = require('./src/middleware/errorHandler');  // 📁 Local: 🔗 [errorHandler.js](./backend/src/middleware/errorHandler.js)
+const apiRoutes = require('./src/routes/index');               // 📁 Local: 🔗 [routes/index.js](./backend/src/routes/index.js)
 
 // ── EXPORTS ──────────────────────────────────────────────
-module.exports = app;               // Export configured Express app
+module.exports = app;                         // Export configured Express app
+
+// ── USED BY ──────────────────────────────────────────────
+// 🔗 [server.js](./backend/server.js)       — imports app and starts listening
 ```
 
 ---
 
 ### 🗄️ Config Layer
 
-#### `src/config/supabase.js`
+#### 🔗 [`src/config/supabase.js`](./backend/src/config/supabase.js)
+
 ```javascript
 // ── IMPORTS ──────────────────────────────────────────────
-const { createClient } = require('@supabase/supabase-js');  // 📦 npm
-const AppError = require('../utils/AppError');               // 📁 Local
+const { createClient } = require('@supabase/supabase-js');   // 📦 npm
+const AppError = require('../utils/AppError');                // 📁 Local: 🔗 [AppError.js](./backend/src/utils/AppError.js)
 
 // ── EXPORTS ──────────────────────────────────────────────
-module.exports = supabase;          // Export configured Supabase client
-
-// ── USED BY ──────────────────────────────────────────────
-// → src/middleware/auth.middleware.js  (checks user exists)
-// → src/services/auth.service.js       (creates/fetches users)
-// → src/services/products.service.js   (product CRUD operations)
+module.exports = supabase;                    // Export configured Supabase client
 ```
+
+**Used by:**
+- 🔗 [`middleware/auth.middleware.js`](./backend/src/middleware/auth.middleware.js) — checks user exists in database
+- 🔗 [`services/auth.service.js`](./backend/src/services/auth.service.js) — creates/fetches users
+- 🔗 [`services/products.service.js`](./backend/src/services/products.service.js) — product CRUD operations
 
 ---
 
 ### ⚡ Utility Layer
 
-#### `src/utils/AppError.js`
+#### 🔗 [`src/utils/AppError.js`](./backend/src/utils/AppError.js)
+
 ```javascript
 // ── IMPORTS ──────────────────────────────────────────────
 // (none - extends native Error class)
 
 // ── EXPORTS ──────────────────────────────────────────────
-module.exports = AppError;          // Custom error with statusCode & isOperational
-
-// ── USED BY ──────────────────────────────────────────────
-// → src/config/supabase.js                    (throws on missing env vars)
-// → src/middleware/auth.middleware.js         (401 on invalid token)
-// → src/middleware/validate.middleware.js     (400 on validation failure)
-// → src/middleware/errorHandler.js            (checks isOperational flag)
-// → src/services/auth.service.js             (throws on auth failures)
-// → src/services/products.service.js         (throws on product failures)
+module.exports = AppError;                    // Custom error with statusCode & isOperational
 ```
 
-#### `src/utils/catchAsync.js`
+**Used by:**
+- 🔗 [`config/supabase.js`](./backend/src/config/supabase.js) — throws on missing env vars
+- 🔗 [`middleware/auth.middleware.js`](./backend/src/middleware/auth.middleware.js) — 401 on invalid token
+- 🔗 [`middleware/validate.middleware.js`](./backend/src/middleware/validate.middleware.js) — 400 on validation failure
+- 🔗 [`middleware/errorHandler.js`](./backend/src/middleware/errorHandler.js) — checks `isOperational` flag
+- 🔗 [`services/auth.service.js`](./backend/src/services/auth.service.js) — throws on auth failures
+- 🔗 [`services/products.service.js`](./backend/src/services/products.service.js) — throws on product failures
+
+#### 🔗 [`src/utils/catchAsync.js`](./backend/src/utils/catchAsync.js)
+
 ```javascript
 // ── IMPORTS ──────────────────────────────────────────────
 // (none - pure utility function)
 
 // ── EXPORTS ──────────────────────────────────────────────
-module.exports = (fn) => (req, res, next) => fn(req, res, next).catch(next);
-
-// ── USED BY ──────────────────────────────────────────────
-// → src/controllers/auth.controller.js     (wraps signup & login)
-// → src/controllers/products.controller.js (wraps all CRUD handlers)
-```
-
----
 
 ### ⚠️ Middleware Layer
 
